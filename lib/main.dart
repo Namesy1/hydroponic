@@ -5,11 +5,13 @@ import 'package:hydroponic/app/theme/theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(GetMaterialApp(
-    debugShowCheckedModeBanner: false,
-    initialRoute: AppPages.INITIAL,
-    getPages: AppPages.routes,
-    darkTheme: AppTheme.dark,
-    theme: AppTheme.light,
-  ));
+  runApp(
+    GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: AppPages.INITIAL,
+      getPages: AppPages.routes,
+      darkTheme: AppTheme.dark,
+      theme: AppTheme.light,
+    ),
+  );
 }

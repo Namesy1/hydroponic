@@ -12,6 +12,11 @@ class HomePhoneView extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Hydroponics'),
+        leading: Image.asset(
+          'assets/icon2.png',
+          width: 10,
+          height: 70,
+        ),
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 26),
