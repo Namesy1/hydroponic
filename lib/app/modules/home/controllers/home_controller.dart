@@ -1,40 +1,79 @@
-import 'dart:io';
-
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'package:web_socket_channel/io.dart';
 
 class HomeController extends GetxController {
   final RxDouble nutrientLevel = 0.0.obs;
   final RxDouble pHLevel = 0.0.obs;
   final RxDouble solutionLevel = 0.0.obs;
-  Socket? _socket;
+  PageController pageController = PageController();
+
+  var data = ''.obs;
+  var currentIndex = 0.obs;
+
+  IOWebSocketChannel? channel;
 
   @override
   void onInit() {
     super.onInit();
-    _connectToServer();
+    _connect();
   }
 
-  Future<void> _connectToServer() async {
+  void _connect() {
     try {
-      // Replace 'localhost' with the IP address of your server // computer ip for local host
-      const String host = '192.168.137.1';
-      const int port = 12345;
-      _socket = await Socket.connect(host, port);
-
-      _socket?.listen((List<int> data) {
-        String receivedData = String.fromCharCodes(data);
-
-        double newValue = double.tryParse(receivedData) ?? 0.0;
-        nutrientLevel.value = newValue;
-      });
+      channel = IOWebSocketChannel.connect('ws://192.168.4.1:81');
+      channel!.stream.listen(
+        (message) {
+          print(message);
+          nutrientLevel.value = double.tryParse(message)!;
+        },
+        onError: (error) {
+          // Handle error here
+          print("WebSocket error: $error");
+          // Try to reconnect
+          // _reconnect();
+        },
+        onDone: () {
+          // Handle socket disruption
+          print("WebSocket connection closed");
+          // Try to reconnect
+          // _reconnect();
+        },
+      );
     } catch (e) {
-      print('Error: $e');
+      print("Error connecting to WebSocket: $e");
+      // Try to reconnect
+      _reconnect();
     }
   }
 
-  void sendData(double value) {
-    if (_socket != null) {
-      _socket!.write('$value\n');
+  void _reconnect() {
+    // Close the existing channel if it exists
+    channel?.sink.close();
+
+    // Reconnect after a short delay
+    Future.delayed(const Duration(seconds: 5), () {
+      _connect();
+    });
+  }
+
+  void selectedBottomBarIndex(int index) {
+    currentIndex(index);
+    pageController.jumpToPage(index);
+  }
+
+  sendRequest() {
+    if (channel != null) {
+      channel!.sink.add('work on this information');
+    } else {
+      print("WebSocket channel is not initialized");
     }
+  }
+
+  @override
+  void onClose() {
+    channel?.sink.close();
+    super.onClose();
   }
 }

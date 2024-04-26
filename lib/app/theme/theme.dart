@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 
-const seedColor = Colors.green; // Example seed color
+const seedColor = Color(0xFF6EEB83); // Example seed color
 
 //ED820E
 class AppTheme {
   static final light = ThemeData(
+    fontFamily: 'Montserrat',
     brightness: Brightness.light,
+    appBarTheme: AppBarTheme(
+      backgroundColor: const Color(0xffF2F1F3),
+      elevation: 0,
+    ),
     colorScheme: ColorScheme.fromSeed(
       seedColor: seedColor,
       brightness: Brightness.light,
       primary: seedColor, // Primary color
       onPrimary: const Color(0xff1B1A1C), // Text color on primary background
       background: const Color(0xffF2F1F3), // Background color
-      surface: seedColor, // Surface color (like cards) // appbar
+      surface: const Color(0xffF2F1F3), // Surface color (like cards) // appbar
       onSurface: Colors.black, // Text color on surface
       error: Colors.red, // Error color
       onError: Colors.white, // Text color on error background
@@ -29,6 +34,7 @@ class AppTheme {
 
   ///the dark theme data
   static final dark = ThemeData(
+    fontFamily: 'Montserrat',
     brightness: Brightness.dark,
     colorScheme: ColorScheme.fromSeed(
       seedColor: seedColor,
