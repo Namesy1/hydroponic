@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hydroponic/app/modules/home/controllers/home_controller.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
+// import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import 'widgets/export_widgets.dart';
 
@@ -14,39 +14,130 @@ class HomeView extends GetView<HomeController> {
     var height = Get.mediaQuery.size.height;
     // var width = Get.mediaQuery.size.height;
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 26),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Welcome to your Hydroponic Farm',
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineLarge!
+                    .copyWith(fontVariations: [const FontVariation('wght', 500)]),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Current Crops',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 250.0,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    plantContainer('1') // Add more crop cards here
+                  ],
+                ),
+              ),
+
+              SlideshowWidget(),
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Add New Crops',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              // Add more widgets for adding new crops here
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            // Handle adding new crops
+          },
+          child: const Icon(Icons.add),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+
+  Widget _buildCropCard(String name, String imagePath) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
         children: [
-          ListTile(
-            leading: Image.asset('assets/icon.png'),
-            title: Text(
-              'HYDROPONIC',
-              style: TextStyle(
-                fontSize: height * 0.02,
-                fontVariations: const <FontVariation>[
-                  FontVariation('wght', 500.0)
-                ],
+          Container(
+            width: 100.0,
+            height: 100.0,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              image: DecorationImage(
+                image: AssetImage(imagePath),
+                fit: BoxFit.cover,
               ),
             ),
           ),
-          SizedBox(
-            width: double.infinity,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  plantContainer('1'),
-                  plantContainer('2'),
-                  plantContainer('3'),
-                ],
-              ),
-            ),
-          ),
+          const SizedBox(height: 8.0),
+          Text(name),
         ],
       ),
     );
   }
 }
+      
+      
+//       SafeArea(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.end,
+//           children: [
+//             ListTile(
+//               leading: Image.asset('assets/icon.png'),
+//               title: Text(
+//                 'HYDROPONIC',
+//                 style: TextStyle(
+//                   fontSize: height * 0.02,
+//                   fontVariations: const <FontVariation>[
+//                     FontVariation('wght', 500.0)
+//                   ],
+//                 ),
+//               ),
+//             ),
+//             SizedBox(
+//               width: double.infinity,
+//               child: SingleChildScrollView(
+//                 scrollDirection: Axis.horizontal,
+//                 child: Row(
+//                   children: [
+//                     plantContainer('1'),
+//                     plantContainer('2'),
+//                     plantContainer('3'),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+    
+    
+//     );
+//   }
+// }
 
 // class GaugeReader extends StatelessWidget {
 //   const GaugeReader({

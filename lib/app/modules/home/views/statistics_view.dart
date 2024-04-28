@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:hydroponic/app/modules/home/controllers/connection_controller.dart';
 import 'package:hydroponic/app/modules/home/controllers/statistics_controller.dart';
 
 import 'widgets/export_widgets.dart';
@@ -22,18 +23,7 @@ class StatisticsView extends GetView {
             fontVariations: const <FontVariation>[FontVariation('wght', 500.0)],
           ),
         ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Get.bottomSheet(BottomSheet(
-                  onClosing: () {},
-                  builder: (context) => Container(
-                    height: 400,
-                  ),
-                ));
-              },
-              icon: Icon(Icons.settings))
-        ],
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.settings))],
       ),
       body: Stack(
         children: [
@@ -56,23 +46,22 @@ class StatisticsView extends GetView {
                   SizedBox(
                     height: height * 0.01,
                   ),
-                  const Text(
-                    'Day 02',
-                  ),
+                  Text('Day 02', style: TextStyle(fontSize: height * 0.04)),
                   Obx(() => Text(
-                        '${fd.timerValue()} remaining',
+                        '${fd.countdown()} remaining',
                       )),
                   SizedBox(
                     height: height * 0.05,
                   ),
+                  Obx(
+                    () => itemDetail(
+                        title: 'Water',
+                        measurement:
+                            '${Get.find<ConnectionController>().waterLevel()} ml',
+                        color: Colors.amber[100]),
+                  ),
                   itemDetail(
-                      title: 'pH',
-                      measurement: '4.3',
-                      color: Colors.amber[100]),
-                  itemDetail(
-                      title: 'Water',
-                      measurement: '40 ml',
-                      color: Colors.green[200]),
+                      title: 'pH', measurement: '7', color: Colors.green[200]),
                   itemDetail(
                       title: 'Temp',
                       measurement: '24\'C',

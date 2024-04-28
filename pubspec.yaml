@@ -14,6 +14,8 @@ dependencies:
   web_socket_channel: ^2.4.0
   lottie: 3.1.0
   video_player: ^2.8.4
+  camera: ^0.10.5+9
+  carousel_slider: 4.2.1
   flutter: 
     sdk: flutter
 

@@ -2,41 +2,35 @@ import 'dart:async';
 import 'package:get/get.dart';
 
 class StatisticsController extends GetxController {
-  // Define the timer value as a RxString
-  RxString timerValue = '29 days'.obs;
-  late Timer _timer;
-  int totalSeconds = 2505600; // Total seconds for 29 days
+  RxString countdown = ''.obs;
+  DateTime endTime = DateTime.now().add(Duration(days: 20));
+  void startCountdown() {
+    // Set the end time for the countdown
 
-  // Start the timer
-  void startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (totalSeconds > 0) {
-        // Decrease the total seconds by 1 second
-        totalSeconds--;
+    // Update the countdown every second
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      Duration remainingTime = endTime.difference(DateTime.now());
+      int days = remainingTime.inDays;
+      int hours = remainingTime.inHours.remainder(24);
+      int minutes = remainingTime.inMinutes.remainder(60);
 
-        // Convert total seconds to days, hours, and minutes
-        int days = totalSeconds ~/ (24 * 3600);
-        int hours = (totalSeconds % (24 * 3600)) ~/ 3600;
-        int minutes = (totalSeconds % 3600) ~/ 60;
-
-        // Update the timer value string
-        if (days > 0) {
-          timerValue.value = '$days days';
-        } else if (hours > 0) {
-          timerValue.value = '$hours hours';
-        } else {
-          timerValue.value = '$minutes minutes';
-        }
+      if (days >= 0) {
+        countdown.value = '$days days, $hours hours, $minutes minutes';
       } else {
-        // Stop the timer when it reaches 0 seconds
-        _timer.cancel();
+        countdown.value = 'Countdown expired';
+        timer.cancel();
       }
     });
   }
 
   @override
+  void onInit() {
+    startCountdown();
+    super.onInit();
+  }
+
+  @override
   void onClose() {
-    _timer.cancel(); // Cancel the timer when the controller is closed
     super.onClose();
   }
 }

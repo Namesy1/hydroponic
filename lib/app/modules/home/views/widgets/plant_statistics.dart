@@ -16,7 +16,7 @@ Widget itemDetail(
     child: Container(
       padding: const EdgeInsets.all(10),
       height: height * 0.15,
-      width: height * 0.20,
+      width: height * 0.25,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
