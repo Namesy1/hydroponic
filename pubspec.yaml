@@ -8,14 +8,21 @@ environment:
 dependencies: 
   cupertino_icons: ^1.0.2
   get: 4.6.6
-  flutter_bluetooth_serial: ^0.4.0
   syncfusion_flutter_gauges: ^24.2.6
   http: ^1.2.0
-  web_socket_channel: ^2.4.0
   lottie: 3.1.0
-  video_player: ^2.8.4
-  camera: ^0.10.5+9
   carousel_slider: 4.2.1
+  device_preview: ^1.1.0
+  flutter_local_notifications: 17.1.1
+  firebase_core: ^2.27.0
+  firebase_messaging: ^14.7.19
+  permission_handler: ^11.3.1
+  firebase_database: ^10.4.9
+  flutter_svg: ^2.0.10+1
+  google_sign_in: ^6.2.1
+  firebase_auth: ^4.17.8
+  get_storage: 2.1.1
+  syncfusion_flutter_charts: ^24.2.9
   flutter: 
     sdk: flutter
 
@@ -27,6 +34,8 @@ dev_dependencies:
 flutter: 
   assets: 
     - assets/
+    - assets/images/
+    - assets/icons/
   fonts: 
     - family: Montserrat
       fonts: 

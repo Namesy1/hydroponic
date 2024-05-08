@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "957134796080",
+    "firebase_url": "https://hydroponic-1cb98-default-rtdb.firebaseio.com",
+    "project_id": "hydroponic-1cb98",
+    "storage_bucket": "hydroponic-1cb98.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:957134796080:android:e1bf69456a973f74ae84f5",
+        "android_client_info": {
+          "package_name": "com.example.hydroponic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "957134796080-k8hltop75qt1944m5fbt5f8p5oneamgp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hydroponic",
+            "certificate_hash": "b07098c86e9d4d309a12af665d335909b2811e26"
+          }
+        },
+        {
+          "client_id": "957134796080-ji4j00k3tminoom3oob5hqmkvttts5aq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGt36xXZZP2f_VbQQpP_Etd-dFp34DR8A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "957134796080-ji4j00k3tminoom3oob5hqmkvttts5aq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "957134796080-69v3flolkju8ieue45j7c95g3ffvpk6c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hydroponic"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

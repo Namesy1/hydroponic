@@ -1,16 +1,32 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-const seedColor = Color(0xFF6EEB83); // Example seed color
+const seedColor = Color(0xFF0C9869);
+const String fontFamily = 'Montserrat';
 
-//ED820E
 class AppTheme {
   static final light = ThemeData(
-    fontFamily: 'Montserrat',
+    fontFamily: fontFamily,
     brightness: Brightness.light,
-    appBarTheme: AppBarTheme(
-      backgroundColor: const Color(0xffF2F1F3),
-      elevation: 0,
-    ),
+    appBarTheme: const AppBarTheme(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          systemNavigationBarContrastEnforced: true,
+        
+            statusBarBrightness: Brightness.light,
+            systemNavigationBarIconBrightness: Brightness.light,
+            systemNavigationBarColor: Color(0xffF2F1F3),
+            statusBarColor: Color(0xffF2F1F3),
+            statusBarIconBrightness: Brightness.dark),
+        // color: Color(0xffF2F1F3),
+        elevation: 0,
+        surfaceTintColor: Color(0xffF2F1F3),
+        titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontVariations: [FontVariation('wght', 500)],
+            fontSize: 16,
+            fontFamily: fontFamily)),
     colorScheme: ColorScheme.fromSeed(
       seedColor: seedColor,
       brightness: Brightness.light,
@@ -34,7 +50,7 @@ class AppTheme {
 
   ///the dark theme data
   static final dark = ThemeData(
-    fontFamily: 'Montserrat',
+    fontFamily: fontFamily,
     brightness: Brightness.dark,
     colorScheme: ColorScheme.fromSeed(
       seedColor: seedColor,

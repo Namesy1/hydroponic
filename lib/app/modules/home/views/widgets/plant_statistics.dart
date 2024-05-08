@@ -3,39 +3,54 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-Widget itemDetail(
-    {required String title, required String measurement, Color? color}) {
-  var height = Get.mediaQuery.size.height;
-  return Card(
-    color: color,
-    elevation: 10,
-    margin: const EdgeInsets.symmetric(vertical: 10),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(20),
-    ),
-    child: Container(
-      padding: const EdgeInsets.all(10),
-      height: height * 0.15,
-      width: height * 0.25,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+class ItemDetail extends StatelessWidget {
+  const ItemDetail(
+      {super.key, required this.title, required this.measurement, this.color});
+  final String title;
+  final String measurement;
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsetsDirectional.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: color!,
+      ),
+      child: Stack(
         children: [
-          Text(title),
-          Expanded(
-            child: Text(
-              measurement,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: height * 0.06,
-                fontVariations: const <FontVariation>[
-                  FontVariation('wght', 600.0)
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontVariations: <FontVariation>[FontVariation('wght', 600.0)],
+                ),
+              ),
+              const Text('Good'),
+              Row(
+                children: [
+                  Text(
+                    measurement,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: Get.height * 0.04,
+                      fontVariations: <FontVariation>[
+                        const FontVariation('wght', 600.0)
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
+            ],
           ),
+          Positioned(top: 0, right: 0, child: Icon(Icons.donut_large_sharp))
         ],
       ),
-    ),
-  );
+    );
+  }
 }

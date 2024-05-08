@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:get/get.dart';
 
 class SlideshowWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
-        height: 200.0,
+        height: 120.0,
         autoPlay: true,
-        aspectRatio: 16 / 9,
-        enlargeCenterPage: true,
       ),
       items: [
         _buildSlide(
@@ -38,28 +37,14 @@ class SlideshowWidget extends StatelessWidget {
 
   Widget _buildSlide(String title, String imagePath, String description) {
     return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-      padding: EdgeInsets.all(8.0),
-      child: Stack(
-        children: [
-          Positioned.fill(child: Image.asset(imagePath, fit: BoxFit.fill)),
-          Column(
-            children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                description,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16.0),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: Colors.green, borderRadius: BorderRadius.circular(20)),
+      child: Text(
+        description,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 16.0),
+      ).marginAll(10),
+    ).paddingAll(5);
   }
 }

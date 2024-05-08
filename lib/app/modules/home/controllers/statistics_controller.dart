@@ -1,31 +1,48 @@
-import 'dart:async';
 import 'package:get/get.dart';
 
-class StatisticsController extends GetxController {
+import 'package:firebase_database/firebase_database.dart';
+
+class StatisticsController extends GetxController with StateMixin {
   RxString countdown = ''.obs;
-  DateTime endTime = DateTime.now().add(Duration(days: 20));
-  void startCountdown() {
-    // Set the end time for the countdown
+  RxDouble pH = 0.0.obs;
+  RxDouble tds = 0.0.obs;
+  RxDouble acid = 0.0.obs;
+  RxDouble base = 0.0.obs;
+  RxDouble solution = 0.0.obs;
+  DateTime start = DateTime.now();
+  final databaseReference = FirebaseDatabase.instance.ref();
 
-    // Update the countdown every second
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      Duration remainingTime = endTime.difference(DateTime.now());
-      int days = remainingTime.inDays;
-      int hours = remainingTime.inHours.remainder(24);
-      int minutes = remainingTime.inMinutes.remainder(60);
+  void listenForData() {
+    change(null, status: RxStatus.loading());
+    try {
+      databaseReference.child('crop/chinese').onValue.listen((event) {
+        print(event.snapshot.value);
+        if (event.snapshot.value != null) {
+          Map<dynamic, dynamic> values = event.snapshot.value as Map;
+          start = DateTime.tryParse(values['start'])!;
+          pH.value =
+              double.tryParse(values['sensor_readings']['ph'].toString())!;
+          tds.value =
+              double.tryParse(values['sensor_readings']['tds'].toString())!;
+          acid.value =
+              double.tryParse(values['sensor_readings']['acid'].toString())!;
+          base.value =
+              double.tryParse(values['sensor_readings']['base'].toString())!;
+          solution.value = double.tryParse(
+              values['sensor_readings']['solution_level'].toString())!;
 
-      if (days >= 0) {
-        countdown.value = '$days days, $hours hours, $minutes minutes';
-      } else {
-        countdown.value = 'Countdown expired';
-        timer.cancel();
-      }
-    });
+          change(null, status: RxStatus.success());
+        }
+      });
+    } catch (e) {
+      print(e);
+      change(null, status: RxStatus.error(e.toString()));
+    }
   }
 
   @override
   void onInit() {
-    startCountdown();
+    listenForData();
     super.onInit();
   }
 

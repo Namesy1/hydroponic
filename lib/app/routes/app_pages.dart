@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:hydroponic/app/middleware/auth_middleware.dart';
 import 'package:hydroponic/app/modules/home/views/connection_view.dart';
 import 'package:hydroponic/app/modules/home/views/statistics_view.dart';
 
@@ -17,17 +18,20 @@ class AppPages {
       name: _Paths.HOME,
       page: () => HomeView(),
       binding: HomeBinding(),
+      middlewares: [AuthMiddleware()],
       transition: Transition.downToUp,
     ),
     GetPage(
         name: _Paths.CONNECTION,
-        page: () => ConnectionView(),
+        page: () => const ConnectionView(),
         binding: HomeBinding(),
-        transition: Transition.downToUp),
+        middlewares: [AuthMiddleware()],
+        transition: Transition.upToDown),
     GetPage(
         name: _Paths.STATISTICS,
         page: () => StatisticsView(),
         binding: HomeBinding(),
+        middlewares: [AuthMiddleware()],
         transition: Transition.rightToLeft),
   ];
 }
