@@ -3,8 +3,10 @@ import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hydroponic/app/modules/home/controllers/statistics_controller.dart';
+import 'package:hydroponic/app/modules/home/views/home_view.dart';
 import 'package:intl/intl.dart';
 import 'widgets/export_widgets.dart';
 
@@ -16,226 +18,239 @@ class StatisticsView extends GetView {
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
-          statusBarBrightness: Brightness.dark),
+          statusBarBrightness: Brightness.light,
+          systemNavigationBarColor: context.theme.scaffoldBackgroundColor),
       child: Scaffold(
-          body: fd.obx(
-              (state) => NestedScrollView(
-                    floatHeaderSlivers: false,
-                    headerSliverBuilder:
-                        (BuildContext context, bool innerBoxIsScrolled) {
-                      return <Widget>[
-                        SliverAppBar(
-                          expandedHeight: Get.height * 0.2,
-                          floating: false,
-                          pinned: true,
-                          systemOverlayStyle: SystemUiOverlayStyle(
-                              statusBarColor: Colors.transparent,
-                              statusBarBrightness: Brightness.light,
-                              systemNavigationBarColor:
-                                  Theme.of(context).scaffoldBackgroundColor),
-                          flexibleSpace: FlexibleSpaceBar(
-                              centerTitle: false,
-                              title: const Text("Chinese",
-                                  style: TextStyle(color: Colors.black)),
-                              collapseMode: CollapseMode.pin,
-                              background: Container(
-                                clipBehavior: Clip.antiAlias,
-                                decoration: const BoxDecoration(
-                                    borderRadius: BorderRadius.vertical(
-                                        bottom: Radius.circular(20))),
-                                child: CarouselSlider(
-                                    items: [
-                                      Image.asset(
-                                        "assets/images.jpg",
-                                        fit: BoxFit.cover,
-                                      ),
-                                      Image.asset(
-                                        "assets/images2.jpg",
-                                        fit: BoxFit.cover,
-                                      ),
-                                      Image.asset(
-                                        "assets/images3.jpg",
-                                        fit: BoxFit.cover,
-                                      )
-                                    ],
-                                    options: CarouselOptions(
-                                        autoPlay: true,
-                                        disableCenter: true,
-                                        viewportFraction: 1)),
-                              )),
-                        ),
-                      ];
-                    },
-                    body: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withAlpha(100),
-                              borderRadius: BorderRadius.circular(10),
+        floatingActionButton: Visibility(
+          visible: false,
+          child: FloatingActionButton.large(
+            elevation: 0,
+            shape: CircleBorder(),
+            onPressed: fd.onOff,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.power_settings_new_rounded),
+                Text("On"),
+              ],
+            ),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        body: fd.obx(
+          (state) => SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(
+                      height: Get.height * 0.5,
+                      clipBehavior: Clip.antiAlias,
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.vertical(
+                              bottom: Radius.circular(30))),
+                      child: CarouselSlider(
+                          items: [
+                            Image.asset(
+                              "assets/IMG-20240616-WA0061.jpg",
+                              fit: BoxFit.cover,
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            Image.asset(
+                              "assets/IMG-20240616-WA0087.jpg",
+                              fit: BoxFit.cover,
+                            ),
+                            Image.asset(
+                              "assets/IMG-20240616-WA0101.jpg",
+                              fit: BoxFit.cover,
+                            )
+                          ],
+                          options: CarouselOptions(
+                              autoPlay: true,
+                              disableCenter: true,
+                              viewportFraction: 1)),
+                    ),
+                    Positioned(
+                      bottom: -120,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        height: 190,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withAlpha(100),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Row(
+                                Image.asset(
+                                  'assets/icon.png',
+                                  height: 50,
+                                ),
+                                const Text(
+                                  'Information',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Column(
+                              children: [
+                                Table(
+                                  columnWidths: const {
+                                    0: FractionColumnWidth(0.7),
+                                    1: FractionColumnWidth(0.3),
+                                  },
                                   children: [
-                                    Image.asset(
-                                      'assets/icon.png',
-                                      height: 50,
-                                    ),
-                                    const Text('Information'),
+                                    TableRow(children: [
+                                      const Text('Planting date:'),
+                                      Text(
+                                          '${DateFormat('dd/MM/yyyy').format(fd.start)}')
+                                    ]),
+                                    TableRow(children: [
+                                      const Text('System health:'),
+                                      Obx(() => Text(fd.systemHealth.value
+                                          ? 'Good'
+                                          : 'needs attention'))
+                                    ]),
+                                    TableRow(children: [
+                                      const Text(
+                                          'Approximated days till full harvest'),
+                                      Text(
+                                          '${fd.end.difference(DateTime.now()).inDays} days')
+                                    ]),
+                                    TableRow(children: [
+                                      const Text(
+                                          'Days elapsed since planting:'),
+                                      Text(
+                                          '${DateTime.now().difference(fd.start).inDays} days')
+                                    ])
                                   ],
                                 ),
-                                const Divider().paddingOnly(bottom: 10),
-                                Text(
-                                    'Planting date: ${DateFormat('dd/MM/yyyy').format(fd.start!)}'),
-                                const Text('System health: Good'),
-                                const Text('Growth progress: Excellent'),
-                              ],
-                            ).paddingAll(20),
-                          ).paddingSymmetric(vertical: 10),
-
-                          Container(
-                            height: Get.height * 0.4,
-                            // color: Colors.red,
-                            // padding: const EdgeInsets.all(20),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Expanded(
-                                  child: AnimatedGrid(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    padding: EdgeInsets.zero,
-                                    initialItemCount: items().length,
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                            childAspectRatio: 1,
-                                            mainAxisExtent: Get.height * 0.15,
-                                            crossAxisCount: 2,
-                                            crossAxisSpacing: 10,
-                                            mainAxisSpacing: 10),
-                                    itemBuilder: (context, index, _) {
-                                      return items()[index];
-                                    },
-                                  ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      height: 10,
+                                      width: 10,
+                                      child: Center(
+                                        child: CircularProgressIndicator
+                                            .adaptive(),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text('last reading 5 min ago'),
+                                  ],
                                 ),
                               ],
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.access_time_rounded)
-                                  .paddingOnly(right: 10),
-                              Text('last reading 5min ago'),
-                            ],
-                          ),
-                          Text('Approximated days till full harvest: 20'),
-                          Text(
-                              'Days elapsed since planting: ${DateTime.now().difference(fd.start!).inDays}'),
-                          // LinearProgressIndicator(
-                          //   value: 20,
-                          //   minHeight: 40,
-                          //   borderRadius: BorderRadius.circular(10),
-                          //   backgroundColor: Colors.red,
-                          //   semanticsValue: 'sdsd',
-                          // ).paddingSymmetric(vertical: 10)
-
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   children: [
-                          //     Obx(() => ColoredContainer(
-                          //           color: Colors.blue,
-                          //           percentage: fd.solution(),
-                          //           label: 'Nutrient',
-                          //         )),
-                          //     Obx(() => ColoredContainer(
-                          //           color: Colors.blueGrey,
-                          //           percentage: fd.acid(),
-                          //           label: 'Acid',
-                          //         )),
-                          //     Obx(() => ColoredContainer(
-                          //           color: Colors.blueAccent.shade100,
-                          //           percentage: fd.base(),
-                          //           label: 'Base',
-                          //         )),
-                          //   ],
-                          // ).paddingSymmetric(vertical: 20)
-                        ],
-                      ).paddingSymmetric(horizontal: 20),
+                            )
+                          ],
+                        ),
+                      ).paddingSymmetric(vertical: 0),
                     ),
-                  ),
-              onLoading: Center(
-                child: Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    color: Theme.of(Get.context!).colorScheme.primary,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
+                  ],
+                ),
+                Container(
+                  height: Get.height * 0.3,
+                  // color: Colors.red,
+                  // padding: const EdgeInsets.all(20),
+                  margin: EdgeInsets.only(top: 110),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/icon.png',
-                            height: 50,
+                      Expanded(
+                        child: GridView.custom(
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.zero,
+                          childrenDelegate: SliverChildListDelegate(
+                            fd.readings
+                                .map((e) => Obx(
+                                      () => ItemDetail(
+                                          isLow: e().optimal,
+                                          title: e().name,
+                                          unit: e().unit,
+                                          measurement: e().name.contains('pH')
+                                              ? e().value.toString()
+                                              : e().value.ceil().toString(),
+                                          color: e().optimal
+                                              ? Colors.green[200]
+                                              : Colors.white),
+                                    ))
+                                .toList(),
                           ),
-                          CircularProgressIndicator(
-                            backgroundColor:
-                                Theme.of(Get.context!).scaffoldBackgroundColor,
-                          )
-                        ],
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio: 5.5 / 3,
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10),
+                        ),
                       ),
-                      const Text(
-                        'Please wait',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontVariations: [FontVariation('wght', 500)]),
-                      ).paddingAll(20),
                     ],
-                  ).paddingAll(20),
-                ).paddingAll(20),
+                  ),
+                ).paddingSymmetric(vertical: 20, horizontal: 10),
+              ],
+            ),
+          ),
+          onLoading: Center(
+            child: Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                color: Theme.of(Get.context!).colorScheme.primary,
+                borderRadius: BorderRadius.circular(10),
               ),
-              onError: (error) => Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Stack(
+                    alignment: Alignment.center,
                     children: [
-                      Text(error.toString()),
-                      const LinearProgressIndicator()
-                          .marginSymmetric(vertical: 10)
+                      Image.asset(
+                        'assets/icon.png',
+                        height: 50,
+                      ),
+                      CircularProgressIndicator(
+                        backgroundColor:
+                            Theme.of(Get.context!).scaffoldBackgroundColor,
+                      )
                     ],
-                  ).paddingSymmetric(horizontal: 20))),
+                  ),
+                  const Text(
+                    'Please wait',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontVariations: [FontVariation('wght', 500)]),
+                  ).paddingAll(20),
+                ],
+              ).paddingAll(20),
+            ).paddingAll(20),
+          ),
+          onError: (error) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(error.toString()),
+              const LinearProgressIndicator().marginSymmetric(vertical: 10)
+            ],
+          ).paddingAll(20),
+        ),
+      ),
     );
-  }
-
-  List<Widget> items() {
-    return [
-      Obx(() => ItemDetail(
-          title: 'pH', measurement: '${fd.pH}', color: Colors.green[200])),
-      Obx(
-        () => ItemDetail(
-            title: 'TDS', measurement: '${fd.tds}', color: Colors.orange[200]),
-      ),
-      Obx(
-        () => ItemDetail(
-            title: 'solution',
-            measurement: '${fd.solution}',
-            color: Colors.blue[200]),
-      ),
-      // Obx(
-      //   () => ItemDetail(
-      //       title: 'temperature',
-      //       measurement: '${fd.solution}',
-      //       color: Colors.red[200]),
-      // ),
-    ];
   }
 }

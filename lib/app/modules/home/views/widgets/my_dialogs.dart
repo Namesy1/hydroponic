@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -50,7 +48,7 @@ class MyDialog {
   }) {
     Get.isDialogOpen! ? Get.back() : null;
     return Get.dialog(
-        transitionCurve: const SawTooth(6),
+        transitionCurve: Curves.ease,
         barrierDismissible: false,
         barrierColor: Theme.of(Get.context!).scaffoldBackgroundColor,
         Dialog(

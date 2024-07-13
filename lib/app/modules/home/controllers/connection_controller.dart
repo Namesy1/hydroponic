@@ -38,6 +38,7 @@ class ConnectionController extends GetxService {
         title: 'You are about to be signed out, do you wish to proceed?',
         hasTwoButtons: true,
         leftButtonText: 'no',
+        
         rightButtonText: 'yes',
         rightButtonAction: () => AuthService().signOut());
   }

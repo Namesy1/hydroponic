@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:hydroponic/app/modules/home/controllers/connection_controller.dart';
 import 'package:hydroponic/app/modules/home/controllers/home_controller.dart';
 import 'package:hydroponic/app/modules/home/controllers/statistics_controller.dart';
-import 'package:hydroponic/app/modules/home/views/widgets/export_widgets.dart';
 import 'package:hydroponic/app/routes/app_pages.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
@@ -15,7 +12,7 @@ class HomeView extends GetView {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(
-      value: SystemUiOverlayStyle(
+      value: const SystemUiOverlayStyle(
           statusBarColor: Color(0xFF0C9869),
           statusBarIconBrightness: Brightness.light),
       child: Scaffold(
@@ -49,7 +46,7 @@ class HomeView extends GetView {
                           ),
                           const Spacer(),
                           IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.logout,
                             ),
                             onPressed: () {
@@ -124,80 +121,80 @@ class HomeView extends GetView {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: [
-                        Container(
-                          width: Get.size.width * 0.4,
-                          height: Get.size.height * 0.25,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.onSecondary,
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              Get.toNamed(Routes.STATISTICS);
-                            },
-                            child: Column(
-                              children: <Widget>[
-                                Image.asset(
-                                  'assets/chinese.png',
-                                  height: Get.size.height * 0.2,
+                        Obx(() => Container(
+                              width: Get.size.width * 0.4,
+                              height: Get.size.height * 0.25,
+                              decoration: BoxDecoration(
+                                color: Get.put(StatisticsController())
+                                        .systemHealth
+                                        .isTrue
+                                    ? context.theme.colorScheme.onPrimary
+                                    : context.theme.colorScheme.errorContainer
+                                        .withAlpha(50),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10),
                                 ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  height: Get.size.height * 0.05,
-                                  decoration: BoxDecoration(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    borderRadius: const BorderRadius.only(
-                                      bottomLeft: Radius.circular(10),
-                                      bottomRight: Radius.circular(10),
+                              ),
+                              child: InkWell(
+                                onTap: () {
+                                  Get.toNamed(Routes.STATISTICS);
+                                },
+                                child: Column(
+                                  children: <Widget>[
+                                    Image.asset(
+                                      'assets/chinese.png',
+                                      height: Get.size.height * 0.2,
                                     ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        offset: const Offset(0, 5),
-                                        blurRadius: 10,
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      height: Get.size.height * 0.05,
+                                      decoration: BoxDecoration(
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .primary
-                                            .withOpacity(0.23),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Row(
-                                    children: <Widget>[
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: "chinese\n",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium!
-                                                  .copyWith(
-                                                      color: Colors.white,
-                                                      fontVariations: [
-                                                    const FontVariation(
-                                                        'wght', 600)
-                                                  ]),
-                                            ),
-                                            TextSpan(
-                                                text: "Day 2",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall!),
-                                          ],
+                                            .primary,
+                                        borderRadius: const BorderRadius.only(
+                                          bottomLeft: Radius.circular(10),
+                                          bottomRight: Radius.circular(10),
                                         ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            offset: const Offset(0, 5),
+                                            blurRadius: 10,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary
+                                                .withOpacity(0.23),
+                                          ),
+                                        ],
                                       ),
-                                      const Spacer(),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ).marginOnly(right: 10),
+                                      child: Row(
+                                        children: <Widget>[
+                                          RichText(
+                                            text: TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                  text: "chinese\n",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium!
+                                                      .copyWith(
+                                                          fontVariations: [
+                                                        const FontVariation(
+                                                            'wght', 600)
+                                                      ]),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )).marginOnly(right: 10),
                         Container(
                           clipBehavior: Clip.antiAlias,
                           width: Get.size.width * 0.4,
@@ -218,11 +215,11 @@ class HomeView extends GetView {
                           child: InkWell(
                             splashColor: Theme.of(context).colorScheme.primary,
                             onTap: () {
-                              MyDialog.showConnectingDialog(
-                                  title:
-                                      'You need to upgrade your current hydroponic farm to perform this action',
-                                  rightButtonAction: () => Get.back(),
-                                  rightButtonText: 'close');
+                              Get.snackbar('Warning',
+                                  'You need to upgrade your current hydroponic farm to perform this action',
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  margin: const EdgeInsets.all(20),
+                                  backgroundColor: context.theme.primaryColor);
                             },
                             child: const Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -243,80 +240,79 @@ class HomeView extends GetView {
   }
 }
 
-class GaugeReader extends StatelessWidget {
-  GaugeReader({
-    super.key,
-  });
+// class GaugeReader extends StatelessWidget {
+//   GaugeReader({
+//     super.key,
+//   });
 
-  final controller = Get.find<StatisticsController>();
+//   final controller = Get.find<StatisticsController>();
 
-  @override
-  Widget build(BuildContext context) {
-    var height = Get.mediaQuery.size.height;
-    return SizedBox(
-      width: height * 0.2,
-      height: height * 0.2,
-      child: Obx(
-        () => SfRadialGauge(
-          axes: <RadialAxis>[
-            RadialAxis(
-              minimum: 0,
-              maximum: 100,
-              showLabels: false,
-              showTicks: false,
-              radiusFactor: 0.8,
-              axisLineStyle: AxisLineStyle(
-                  cornerStyle: CornerStyle.bothCurve,
-                  color: Theme.of(context).disabledColor,
-                  thickness: 15),
-              pointers: <GaugePointer>[
-                RangePointer(
-                  value: controller.solution(),
-                  cornerStyle: CornerStyle.bothCurve,
-                  width: 15,
-                  sizeUnit: GaugeSizeUnit.logicalPixel,
-                  gradient: SweepGradient(
-                    colors: <Color>[
-                      Theme.of(context).colorScheme.onSecondary,
-                      Theme.of(context).colorScheme.surface,
-                    ],
-                    stops: const <double>[0.25, 0.75],
-                  ),
-                ),
-                //the thumb
-                MarkerPointer(
-                  value: controller.solution(),
-                  enableDragging: true,
-                  onValueChanged: (d) {},
-                  markerHeight: 20,
-                  markerWidth: 20,
-                  markerType: MarkerType.circle,
-                  color: Theme.of(context).colorScheme.primary,
-                  borderWidth: 2,
-                  borderColor: Colors.white54,
-                ),
-              ],
+//   @override
+//   Widget build(BuildContext context) {
+//     var height = Get.mediaQuery.size.height;
+//     return SizedBox(
+//       width: height * 0.2,
+//       height: height * 0.2,
+//       child: SfRadialGauge(
+//         axes: <RadialAxis>[
+//           RadialAxis(
+//             minimum: 0,
+//             maximum: 100,
+//             showLabels: false,
+//             showTicks: false,
+//             radiusFactor: 0.8,
+//             axisLineStyle: AxisLineStyle(
+//                 cornerStyle: CornerStyle.bothCurve,
+//                 color: Theme.of(context).disabledColor,
+//                 thickness: 15),
+//             pointers: <GaugePointer>[
+//               RangePointer(
+//                 value: 30,
+//                 cornerStyle: CornerStyle.bothCurve,
+//                 width: 15,
+//                 sizeUnit: GaugeSizeUnit.logicalPixel,
+//                 gradient: SweepGradient(
+//                   colors: <Color>[
+//                     Theme.of(context).colorScheme.onSecondary,
+//                     Theme.of(context).colorScheme.surface,
+//                   ],
+//                   stops: const <double>[0.25, 0.75],
+//                 ),
+//               ),
+//               //the thumb
+//               MarkerPointer(
+//                 value: 30,
+//                 enableDragging: true,
+//                 onValueChanged: (d) {},
+//                 markerHeight: 20,
+//                 markerWidth: 20,
+//                 markerType: MarkerType.circle,
+//                 color: Theme.of(context).colorScheme.primary,
+//                 borderWidth: 2,
+//                 borderColor: Colors.white54,
+//               ),
+//             ],
 
-              //the text %
-              annotations: <GaugeAnnotation>[
-                GaugeAnnotation(
-                  angle: 90,
-                  axisValue: 5,
-                  positionFactor: 0.2,
-                  widget: Text(
-                    '${controller.solution().ceil()}%',
-                    style: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      // color: Color(0xFFCC2B5E),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//             //the text %
+//             annotations: <GaugeAnnotation>[
+//               GaugeAnnotation(
+//                 angle: 90,
+//                 axisValue: 5,
+//                 positionFactor: 0.2,
+//                 widget: Text(
+//                   '30%',
+//                   style: const TextStyle(
+//                     fontSize: 30,
+//                     fontWeight: FontWeight.bold,
+//                     // color: Color(0xFFCC2B5E),
+//                   ),
+//                 ),
+//               ),
+//               GaugeAnnotation(widget: Text('Annotation'))
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

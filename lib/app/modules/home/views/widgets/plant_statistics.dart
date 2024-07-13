@@ -1,14 +1,19 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ItemDetail extends StatelessWidget {
   const ItemDetail(
-      {super.key, required this.title, required this.measurement, this.color});
+      {super.key,
+      required this.title,
+      required this.measurement,
+      this.unit,
+      this.color,
+      this.isLow});
   final String title;
+  final String? unit;
   final String measurement;
   final Color? color;
+  final bool? isLow;
 
   @override
   Widget build(BuildContext context) {
@@ -16,36 +21,33 @@ class ItemDetail extends StatelessWidget {
       padding: const EdgeInsetsDirectional.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: color!,
+        color: isLow! ? color! : Colors.red,
       ),
       child: Stack(
         children: [
           Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
             children: [
               Text(
                 title,
-                style: const TextStyle(
-                  fontVariations: <FontVariation>[FontVariation('wght', 600.0)],
+                style: context.textTheme.headlineLarge,
+              ),
+              Expanded(
+                child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    Text(measurement,
+                            style: context.textTheme.displayLarge!.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white))
+                        .paddingOnly(right: 10),
+                    Text(unit!)
+                  ],
                 ),
               ),
-              const Text('Good'),
-              Row(
-                children: [
-                  Text(
-                    measurement,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: Get.height * 0.04,
-                      fontVariations: <FontVariation>[
-                        const FontVariation('wght', 600.0)
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              Text(isLow! ? 'Good' : 'Bad'),
             ],
           ),
           Positioned(top: 0, right: 0, child: Icon(Icons.donut_large_sharp))

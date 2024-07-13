@@ -37,9 +37,11 @@ class AuthService extends GetxService {
 
   void signOut() {
     try {
+      
       FirebaseAuth.instance.signOut().then((_) {
         _getStorage.write('isLoggedIn', false);
         isLoggedIn.value = false;
+        
         Get.offAllNamed(Routes.CONNECTION);
       });
     } on Exception catch (_) {
@@ -47,3 +49,4 @@ class AuthService extends GetxService {
     }
   }
 }
+          
